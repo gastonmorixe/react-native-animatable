@@ -371,7 +371,7 @@ export default function createAnimatableComponent(WrappedComponent) {
 
     startAnimation(duration, iteration, callback) {
       const { animationValue, compiledAnimation } = this.state;
-      const { direction, iterationCount, useNativeDriver } = this.props;
+      const { delay, direction, iterationCount, useNativeDriver } = this.props;
       let easing = this.props.easing || compiledAnimation.easing || 'ease';
       let currentIteration = iteration || 0;
       const fromValue = getAnimationOrigin(currentIteration, direction);
@@ -403,7 +403,7 @@ export default function createAnimatableComponent(WrappedComponent) {
           this.props.animation &&
           (iterationCount === 'infinite' || currentIteration < iterationCount)
         ) {
-          this.startAnimation(duration, currentIteration, callback);
+          setTimeout(() => this.startAnimation(duration, currentIteration, callback), delay);
         } else if (callback) {
           callback(endState);
         }
