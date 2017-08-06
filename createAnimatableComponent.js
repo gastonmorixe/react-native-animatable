@@ -101,6 +101,7 @@ function transitionToValue(
   easing,
   useNativeDriver = false,
   delay,
+  springConfig = {}
 ) {
   if (duration || easing || delay) {
     Animated.timing(transitionValue, {
@@ -113,7 +114,7 @@ function transitionToValue(
       useNativeDriver,
     }).start();
   } else {
-    Animated.spring(transitionValue, { toValue, useNativeDriver }).start();
+    Animated.spring(transitionValue, { toValue, useNativeDriver, ...springConfig }).start();
   }
 }
 
@@ -176,6 +177,7 @@ export default function createAnimatableComponent(WrappedComponent) {
       style: undefined,
       transition: undefined,
       useNativeDriver: false,
+      springConfig: {},
     };
 
     constructor(props) {
@@ -461,6 +463,7 @@ export default function createAnimatableComponent(WrappedComponent) {
             duration || this.props.duration,
             easing,
             this.props.delay,
+            this.props.springConfig,
           );
         },
       );
@@ -495,6 +498,7 @@ export default function createAnimatableComponent(WrappedComponent) {
             easing,
             this.props.useNativeDriver,
             delay,
+            this.props.springConfig
           );
         } else {
           let currentTransitionValue = currentTransitionValues[property];
@@ -526,6 +530,7 @@ export default function createAnimatableComponent(WrappedComponent) {
           easing,
           this.props.useNativeDriver,
           delay,
+          this.props.springConfig
         );
       });
     }
